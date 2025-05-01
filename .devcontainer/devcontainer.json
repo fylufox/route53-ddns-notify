@@ -1,0 +1,12 @@
+// .devcontainer/devcontainer.json
+{
+  "name": "route53-ddns",
+  "dockerFile": "../Dockerfile",
+  "settings": {},
+  "extensions": ["ms-python.python"],
+  // "postCreateCommand": "pip3 install -r requirements.txt",
+  "remoteUser": "root",
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.aws,target=/root/.aws,type=bind,consistency=cached"
+  ],
+}
