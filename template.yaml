@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  route53-ddns-notify
+
+  Sample SAM Template for route53-ddns-notify
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Parameters:
+  HostedZoneId:
+    Type: String
+    Description: The ID of the hosted zone to monitor for changes.
+  RecordSuffix:
+    Type: String
+    Description: The suffix of the record set to monitor for changes.
+
+Resources:
+  Route53DDNSNotifyFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: app/
+      Handler: main.lambda_handler
+      Runtime: python3.9
+      Architectures:
+        - x86_64
+      Events:
+        HelloWorld:
+          Type: CloudWatchEvent # More info about CloudWatchEvent Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cloudwatchevent
+          Properties:
+            Pattern:
+              source: 
+              - "aws.route53"
+              detail-type: 
+              - "AWS API Call via CloudTrail"
+              detail: 
+                eventSource: 
+                - "route53.amazonaws.com"
+                eventName: 
+                - "ChangeResourceRecordSets"
+                requestParameters: 
+                  hostedZoneId: 
+                  - Ref: HostedZoneId
+                  changeBatch: 
+                    changes: 
+                      resourceRecordSet: 
+                        name: 
+                        - suffix: 
+                            Ref: RecordSuffix
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  Route53DDNSNotifyFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt Route53DDNSNotifyFunction.Arn
+  Route53DDNSNotifyFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt Route53DDNSNotifyFunctionRole.Arn

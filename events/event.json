@@ -1,0 +1,92 @@
+{
+  "id":"7bf73129-1428-4cd3-a780-95db273d1602",
+  "detail-type":"AWS API Call via CloudTrail",
+  "source":"aws.route53",
+  "account":"123456789012",
+  "time":"2015-11-11T21:29:54Z",
+  "region":"us-east-1",
+  "version":"0",
+  "resources":[
+    "arn:aws:ec2:us-east-1:123456789012:instance/i-abcd1111"
+  ],
+  "detail":{
+    "eventVersion": "1.10",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "***************",
+        "arn": "arn:aws:iam::123456789012:user/example",
+        "accountId": "123456789012",
+        "accessKeyId": "**************",
+        "userName": "example",
+        "sessionContext": {
+            "attributes": {
+                "creationDate": "2025-05-01T11:07:22Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2025-05-01T11:46:14Z",
+    "eventSource": "route53.amazonaws.com",
+    "eventName": "ChangeResourceRecordSets",
+    "awsRegion": "us-east-1",
+    "sourceIPAddress": "0.0.0.0",
+    "userAgent": "****************",
+    "requestParameters": {
+        "hostedZoneId": "abcdefg12334567",
+        "changeBatch": {
+            "changes": [
+                {
+                    "action": "DELETE",
+                    "resourceRecordSet": {
+                        "name": "test.example.com.",
+                        "type": "A",
+                        "tTL": 60,
+                        "resourceRecords": [
+                            {
+                                "value": "0.0.0.0"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "action": "CREATE",
+                    "resourceRecordSet": {
+                        "name": "test.example.com",
+                        "type": "A",
+                        "tTL": 60,
+                        "resourceRecords": [
+                            {
+                                "value": "1.1.1.1"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    "responseElements": {
+        "changeInfo": {
+            "id": "/change/C05704173FF6462Q7YIIM",
+            "status": "PENDING",
+            "submittedAt": "May 1, 2025 11:46:14 AM"
+        }
+    },
+    "additionalEventData": {
+        "Note": "Do not use to reconstruct hosted zone"
+    },
+    "requestID": "75e7e36b-7694-4e35-b1c1-123456789012",
+    "eventID": "fc8769a6-40d7-4993-bef0-123456789012",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "apiVersion": "2013-04-01",
+    "managementEvent": true,
+    "recipientAccountId": "123456789012",
+    "eventCategory": "Management",
+    "tlsDetails": {
+        "tlsVersion": "TLSv1.3",
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "route53.amazonaws.com"
+    },
+    "sessionCredentialFromConsole": "true"
+  }
+}
