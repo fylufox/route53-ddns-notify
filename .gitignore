@@ -179,5 +179,6 @@ pyrightconfig.json
 # Docs: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-reference.html
 
 **/.aws-sam
+*.toml
 
 # End of https://www.toptal.com/developers/gitignore/api/python,sam
