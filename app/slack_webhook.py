@@ -1,5 +1,6 @@
 import requests
 
+
 def make_payload_attachments(action, record_name, address):
     if action == 'DELETE':
         color = '#dc143c'
