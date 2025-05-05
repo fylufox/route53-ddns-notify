@@ -5,10 +5,12 @@ def lambda_handler(event, context):
     """
     AWS Lambda function handler.
     """
+    print("Get event data:\n"+str(event))
     
     SLACK_WEBHOOK_URL = os.environ['SLACK_WEBHOOK_URL']
     
     record_sets = event["detail"]["requestParameters"]["changeBatch"]["changes"]
+    print("Get record sets:\n"+str(record_sets))
     
     if len(record_sets) == 2:
         domain_name = []
@@ -39,6 +41,8 @@ def lambda_handler(event, context):
         )
         )
         payload["attachments"] = attachments
+        print("Send payload:\n"+str(payload))
+        
         responses.append(slack_webhook.push_slack_webhook(
             payload,
             SLACK_WEBHOOK_URL
