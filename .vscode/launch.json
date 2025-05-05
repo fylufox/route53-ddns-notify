@@ -16,6 +16,7 @@
       "sam": {
         "containerBuild": true,
         "localArguments": [
+          // check https://docs.aws.amazon.com/ja_jp/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-local-invoke.html
           "--event",
           "${workspaceFolder}/events/event.json",
           "--env-vars",
