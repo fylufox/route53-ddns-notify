@@ -38,7 +38,7 @@ def lambda_handler(event, context):
     for record_set in record_sets:
         attachments.append(slack_webhook.make_payload_attachments(
             record_set["action"],
-            record_set["resourceRecordSet"]["name"],
+            record_set["resourceRecordSet"]["name"].rstrip('.'),
             record_set["resourceRecordSet"]["resourceRecords"][0]["value"]
         )
         )

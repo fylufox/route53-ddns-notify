@@ -56,6 +56,11 @@ Resources:
                         name: 
                         - suffix: 
                             Ref: RecordSuffix
+                        - suffix: 
+                            Fn::Sub:
+                              - "${HostedZoneId}."
+                              - HostedZoneId: 
+                                  Ref: RecordSuffix
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
