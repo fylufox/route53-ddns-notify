@@ -1,8 +1,12 @@
+import os
+import slack_webhook
 
 def lambda_handler(event, context):
     """
     AWS Lambda function handler.
     """
+    
+    SLACK_WEBHOOK_URL = os.environ['SLACK_WEBHOOK_URL']
     
     record_sets = event["detail"]["requestParameters"]["changeBatch"]["changes"]
     
@@ -24,8 +28,38 @@ def lambda_handler(event, context):
             record_sets[0]["resourceRecordSet"]["name"] = domain_name[0]
             record_sets[0]["resourceRecordSet"]["resourceRecords"][0]["value"] = address
     
-    # Your code here
-    return {
-        'statusCode': 200,
-        'body': 'Hello from Lambda!'
-    }
+    attachments = []
+    payload = dict()
+    responses = []
+    for record_set in record_sets:
+        attachments.append(slack_webhook.make_payload_attachments(
+            record_set["action"],
+            record_set["resourceRecordSet"]["name"],
+            record_set["resourceRecordSet"]["resourceRecords"][0]["value"]
+        )
+        )
+        payload["attachments"] = attachments
+        responses.append(slack_webhook.push_slack_webhook(
+            payload,
+            SLACK_WEBHOOK_URL
+            )
+        )
+    
+    request_false = False
+    for response in responses:
+        if response.status_code != 200:
+            print(f"Error sending message to Slack: {response.status_code} - {response.text}")
+            request_false = True
+        else:
+            print(f"Message sent to Slack successfully: {response.status_code} - {response.text}")
+    
+    if request_false:
+        return {
+            'statusCode': 500,
+            'body': 'Error sending message to Slack'
+        }
+    else:
+        return {
+            'statusCode': 200,
+            'body': 'Message sent to Slack successfully'
+        }

@@ -17,7 +17,9 @@
         "containerBuild": true,
         "localArguments": [
           "--event",
-          "${workspaceFolder}/events/event.json"
+          "${workspaceFolder}/events/event.json",
+          "--env-vars",
+          "${workspaceFolder}/env/env.json"
         ]
       }
     }

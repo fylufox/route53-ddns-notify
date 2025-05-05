@@ -17,6 +17,9 @@ Parameters:
   RecordSuffix:
     Type: String
     Description: The suffix of the record set to monitor for changes.
+  SlackWebhookUrl:
+    Type: String
+    Description: The Slack webhook URL to send notifications to.
 
 Resources:
   Route53DDNSNotifyFunction:
@@ -27,6 +30,9 @@ Resources:
       Runtime: python3.9
       Architectures:
         - x86_64
+      Environment:
+        Variables:
+          SLACK_WEBHOOK_URL: !Ref SlackWebhookUrl
       Events:
         HelloWorld:
           Type: CloudWatchEvent # More info about CloudWatchEvent Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cloudwatchevent
